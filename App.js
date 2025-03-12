@@ -1,20 +1,66 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ActivityIndicator, Button, Provider as PaperProvider, Text } from 'react-native-paper';
+import { theme } from './src/theme';
+import { Platform, StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// Login
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import Menu from './screens/MenuScreen';
+
+
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() =>  setLoading(false), 3000);
+    return () => clearTimeout(timer); // Limpia el temporizador al desmontar
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider theme={theme}>
+     
+          {isLoading ? (
+            <View style={styles.body}>
+              <ActivityIndicator size="large" color="#113663" />
+              <Text style={{ fontSize: 16, color: '#113663', marginTop: 10 }}>Loading</Text>
+            </View>
+          ) : (
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerStyle: { backgroundColor: '#113663' },
+                  headerTintColor: '#fff',
+                  headerTitleStyle: { fontWeight: 'bold' },
+                  headerTitleAlign: 'center',
+                }}
+                initialRouteName="Iniciar sesión"
+              >
+                {/* Rutas para el inicio de sesión */}
+                <Stack.Screen name="Iniciar sesión" component={LoginScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Registro" component={RegisterScreen} />
+                <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
+
+             
+              </Stack.Navigator>
+            </NavigationContainer>
+          )}
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#9DE1FE',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
