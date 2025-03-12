@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import Menu from './screens/MenuScreen';
+import HomeTab from './screens/Menu/HomeTab';
 
 
 
@@ -35,7 +36,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{
-                  headerStyle: { backgroundColor: '#113663' },
+                  headerStyle: { backgroundColor: 'black' },
                   headerTintColor: '#fff',
                   headerTitleStyle: { fontWeight: 'bold' },
                   headerTitleAlign: 'center',
@@ -43,9 +44,13 @@ export default function App() {
                 initialRouteName="Iniciar sesión"
               >
                 {/* Rutas para el inicio de sesión */}
-                <Stack.Screen name="Iniciar sesión" component={LoginScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Iniciar sesión" component={LoginScreen}  />
                 <Stack.Screen name="Registro" component={RegisterScreen} />
                 <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
+
+                {/* Rutas para el menu */}
+                <Stack.Screen name="HomeTab" component={HomeTab} />
+
 
              
               </Stack.Navigator>
