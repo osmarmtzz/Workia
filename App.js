@@ -49,7 +49,7 @@ export default function App() {
                 <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
 
                 {/* Rutas para el menu */}
-                <Stack.Screen name="HomeTab" component={HomeTab} />
+                <Stack.Screen name="Inicio" component={HomeTab}   />
 
 
              

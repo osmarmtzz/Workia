@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, ImageBackground, View } from 'react-native';
 import { Title, Text, Button, Card } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage
 
 export default function MenuScreen({ navigation, route }) {
   const { userName } = route.params || { userName: 'Usuario' }; // Nombre del usuario
+
+  const handleLogout = async () => {
+    try {
+      // Elimina los datos de sesión de AsyncStorage
+      await AsyncStorage.removeItem('userToken'); // Cambia esto al nombre de tu clave de sesión
+
+      // Navega a la pantalla de inicio de sesión
+      navigation.navigate('Iniciar sesión');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container} style={styles.scrollView}>
@@ -49,7 +62,7 @@ export default function MenuScreen({ navigation, route }) {
 
         <Button
           mode="contained"
-          onPress={() => navigation.navigate('HomeTab')}
+          onPress={() => navigation.navigate('Inicio')}
           style={styles.button}
           labelStyle={styles.buttonLabel}
         >
@@ -58,7 +71,7 @@ export default function MenuScreen({ navigation, route }) {
         
         <Button
           mode="outlined"
-          onPress={() => navigation.navigate('Iniciar sesión')}
+          onPress={handleLogout} // Usamos la función handleLogout
           style={[styles.button, styles.logoutButton]}
           labelStyle={[styles.buttonLabel, styles.logoutLabel]}
         >
