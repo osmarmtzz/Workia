@@ -13,22 +13,29 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${API_URL}/login`, {
-        email,
-        password,
-      });
-
+      const response = await axios.post(`${API_URL}/login`, { email, password });
+  
       if (response.data.status === "success") {
-        alert("Login exitoso");
-        navigation.replace("Menu"); // Redirige a la pantalla principal
+        const user = response.data.user; // Asegúrate de que la API devuelve el usuario con su nombre
+        navigation.replace("Menu", { userName: user.nombre }); // Pasar el nombre al menú
       } else {
-        alert(response.data.message);
+        alert(response.data.message || "Error desconocido");
       }
     } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          alert("Usuario o contraseña incorrectos");
+        } else {
+          alert(`Error: ${error.response.data.message || "Error en la autenticación"}`);
+        }
+      } else {
+        alert("Error en la conexión con el servidor");
+      }
       console.error("Error en la API:", error);
-      alert("Error en la conexión con el servidor");
     }
   };
+  
+  
 
   return (
     <ImageBackground source={require("../assets/Fondo_login_register.png")} style={styles.body}>

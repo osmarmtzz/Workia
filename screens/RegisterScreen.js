@@ -12,6 +12,7 @@ export default function RegisterScreen({ navigation }) {
         fullName: "",
         email: "",
         password: "",
+        phone: "",
         confirmPassword: "",
     });
 
@@ -20,7 +21,7 @@ export default function RegisterScreen({ navigation }) {
     };
 
     const handleRegister = async () => {
-        if (!formData.fullName || !formData.email || !formData.password || formData.password !== formData.confirmPassword) {
+        if (!formData.fullName || !formData.email ||!formData.phone || !formData.password || formData.password !== formData.confirmPassword) {
             setError(true);
             return;
         }
@@ -29,7 +30,7 @@ export default function RegisterScreen({ navigation }) {
             nombre: formData.fullName,
             email: formData.email,
             password: formData.password,
-            telefono: "0000000000",
+            telefono: formData.phone,
             rol_id: 1,
         };
     
@@ -45,7 +46,7 @@ export default function RegisterScreen({ navigation }) {
     
             if (response.data.status === "success") {
                 alert("Registro exitoso");
-                navigation.replace("Menu");
+                navigation.replace("Iniciar sesión");
             } else {
                 alert(response.data.message);
             }
@@ -81,6 +82,15 @@ export default function RegisterScreen({ navigation }) {
                         style={styles.input}
                         left={<TextInput.Icon icon={() => <Ionicons name="mail" size={20} color="#888" />} />}
                         error={isError && !formData.email}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        label="Telefono"
+                        value={formData.phone}
+                        onChangeText={(value) => handleChange("phone", value)}
+                        style={styles.input}
+                        left={<TextInput.Icon icon={() => <Ionicons name="call-outline" size={20} color="#888" />} />}
+                        error={isError && !formData.phone}
                     />
                     <TextInput
                         mode="outlined"
